@@ -37,7 +37,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
     private JButton                clearButton, leaveButton;
     private final Random           random=new Random(System.currentTimeMillis());
     private final Font             defaultFont=new Font("Helvetica",Font.PLAIN,12);
-    private final Color            drawColor=Color.black;
+    // change drawColor by green
+    private final Color            drawColor=Color.green;
     private static final Color     backgroundColor=Color.white;
     boolean                        noChannel=false;
     boolean                        jmx;
