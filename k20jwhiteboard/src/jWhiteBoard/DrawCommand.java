@@ -33,12 +33,7 @@ public class DrawCommand implements Streamable {
         this.rgb=rgb;
     }
 
-    public void readFrom(DataInput in) throws Exception {
-        mode=in.readByte();
-        x=in.readInt();
-        y=in.readInt();
-        rgb=in.readInt();
-    }
+
     public void writeTo(DataOutput out) throws Exception {
         out.writeByte(mode);
         out.writeInt(x);
@@ -46,7 +41,12 @@ public class DrawCommand implements Streamable {
         out.writeInt(rgb);
     }
 
-  
+    public void readFrom(DataInput in) throws Exception {
+        mode=in.readByte();
+        x=in.readInt();
+        y=in.readInt();
+        rgb=in.readInt();
+    }
 
 
     public String toString() {

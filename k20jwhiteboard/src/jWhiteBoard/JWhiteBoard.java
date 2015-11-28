@@ -22,8 +22,8 @@ import java.util.List;
  * mouse moves are broadcast to all group members, which then apply them to their canvas<p>
  * @author Bela Ban, Oct 17 2001
  * 
- * taolao
- * coooo
+ *
+ * 
  *///
 //buttton
 //
@@ -37,7 +37,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
     private JButton                clearButton, leaveButton;
     private final Random           random=new Random(System.currentTimeMillis());
     private final Font             defaultFont=new Font("Helvetica",Font.PLAIN,12);
-    private final Color            drawColor=Color.black;
+    private final Color            drawColor=Color.blue;
     private static final Color     backgroundColor=Color.white;
     boolean                        noChannel=false;
     boolean                        jmx;
@@ -245,7 +245,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
         int green=Math.abs(random.nextInt()) % 255;
         int blue=Math.abs(random.nextInt()) % 255;
         //Quivang
-        return new Color(red, blue, green);
+        return new Color(red, green, blue);
     }
 
 
@@ -307,7 +307,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
             return;
         }
         if(title != null) {
-            mainFrame.setTitle(title);
+            mainFrame.setTitle("");
         }
         else {
             if(channel.getAddress() != null)
@@ -587,7 +587,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
                     Point point=entry.getKey();
                     Color col=entry.getValue();
                     dos.writeInt(point.x);
-                    dos.writeInt(point.x);
+                    dos.writeInt(point.y);
                     dos.writeInt(col.getRGB());
                 }
                 dos.flush();
@@ -681,7 +681,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
             	return;
             Color col=new Color(c.rgb);
             gr.setColor(col);
-            gr.fillOval(c.x, c.y, 10, 10);
+            gr.fillOval(c.x, c.y,10, 10);
             repaint();
             if(state != null) {
                 synchronized(state) {
@@ -696,7 +696,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
          */
         public void clear() {
             if(gr == null) return;
-            gr.clearRect(0, 0, getSize().width, getSize().height);
+            gr.clearRect(10,10, getSize().width, getSize().height);
             repaint();
             if(state != null) {
                 synchronized(state) {
@@ -719,7 +719,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
                     pt=(Point)entry.getKey();
                     col=(Color)entry.getValue();
                     gr.setColor(col);
-                    gr.fillOval(pt.x, pt.y, 10, 10);
+                    gr.fillOval(pt.x, pt.y, 0, 0);
 
                 }
             }
@@ -735,7 +735,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             if(img != null) {
-                g.drawImage(img, 0, 0, null);
+                g.drawImage(img,0, 0, null);
             }
         }
 
