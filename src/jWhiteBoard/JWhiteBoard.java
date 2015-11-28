@@ -28,7 +28,14 @@ import java.util.List;
 //buttton
 //
 public class JWhiteBoard extends ReceiverAdapter implements ActionListener, ChannelListener {
-    protected String               groupName="";
+//	
+//	Random randomGenerator = new Random();
+//	int red = randomGenerator.nextInt(256);
+//	int green = randomGenerator.nextInt(256);
+//	int blue = randomGenerator.nextInt(256);
+//	Color randomColour = new Color(red,green,blue);
+	
+    public String               groupName="";
     private JChannel               channel=null;
     private int                    memberSize=1;
     private JFrame                 mainFrame=null;
@@ -38,14 +45,14 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
     private final Random           random=new Random(System.currentTimeMillis());
     private final Font             defaultFont=new Font("Helvetica",Font.PLAIN,12);
     // change drawColor by green .
-    private final Color            drawColor=Color.green;
+    private final Color            drawColor=selectColor();
     private static final Color     backgroundColor=Color.white;
     boolean                        noChannel=false;
     boolean                        jmx;
     private boolean                useState=false;
     private long                   stateTimeout=5000;
     private boolean                use_unicasts=false;
-    protected boolean              send_own_state_on_merge=true;
+    public boolean              send_own_state_on_merge=true;
     private final                  List<Address> members=new ArrayList<Address>();
 
 
@@ -480,7 +487,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
      * Send State (content on WhiteBoard) to all members of Group
      * @param copy
      */
-    protected void sendOwnState(final Map<Point,Color> copy) {
+    public void sendOwnState(final Map<Point,Color> copy) {
         if(copy == null)
             return;
         for(Point point: copy.keySet()) {
@@ -540,16 +547,16 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
      * DrawPanel 
      * 
      */
-    protected class DrawPanel extends JPanel implements MouseMotionListener {
+    public class DrawPanel extends JPanel implements MouseMotionListener {
         /**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		protected final Dimension         preferred_size=new Dimension(235, 170);
-        protected Image                   img; // for drawing pixels
-        protected Dimension               d, imgsize;
-        protected Graphics                gr;
-        protected final Map<Point,Color>  state;
+		public final Dimension         preferred_size=new Dimension(235, 170);
+        public Image                   img; // for drawing pixels
+        public Dimension               d, imgsize;
+        public Graphics                gr;
+        public final Map<Point,Color>  state;
 
 
         /**
