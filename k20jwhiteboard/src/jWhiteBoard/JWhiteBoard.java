@@ -294,6 +294,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
             channel.connect(groupName, null, stateTimeout);
         }
         mainFrame.setVisible(true);
+        setTitle();
     }
 
     /**
