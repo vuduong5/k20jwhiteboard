@@ -29,11 +29,11 @@ import java.util.List;
 //
 public class JWhiteBoard extends ReceiverAdapter implements ActionListener, ChannelListener {
 //	
-//	Random randomGenerator = new Random();
-//	int red = randomGenerator.nextInt(256);
-//	int green = randomGenerator.nextInt(256);
-//	int blue = randomGenerator.nextInt(256);
-//	Color randomColour = new Color(red,green,blue);
+	Random randomGenerator = new Random();
+	int red = randomGenerator.nextInt(256);
+	int green = randomGenerator.nextInt(256);
+	int blue = randomGenerator.nextInt(256);
+	Color randomColour = new Color(red,green,blue);
 	
     public String               groupName="";
     private JChannel               channel=null;
@@ -44,8 +44,8 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
     private JButton                clearButton, leaveButton;
     private final Random           random=new Random(System.currentTimeMillis());
     private final Font             defaultFont=new Font("Helvetica",Font.PLAIN,12);
-    // change drawColor by green .
-    private final Color            drawColor=selectColor();
+    
+    private final Color            drawColor=randomColour;
     private static final Color     backgroundColor=Color.white;
     boolean                        noChannel=false;
     boolean                        jmx;
@@ -248,12 +248,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
      * Generate Random Color
      * @return
      */
-    private Color selectColor() {
-        int red=Math.abs(random.nextInt()) % 255;
-        int green=Math.abs(random.nextInt()) % 255;
-        int blue=Math.abs(random.nextInt()) % 255;
-        return new Color(red, blue, blue);
-    }
+    
 
 
     /**
