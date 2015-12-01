@@ -41,7 +41,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
     private JFrame                 mainFrame=null;
     private JPanel                 subPanel=null;
     private DrawPanel              drawPanel=null;
-    private JButton                clearButton, leaveButton;
+    private JButton                clearButton, leaveButton, colorButton;
     private final Random           random=new Random(System.currentTimeMillis());
     private final Font             defaultFont=new Font("Helvetica",Font.PLAIN,12);
     
@@ -49,7 +49,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
     private static final Color     backgroundColor=Color.white;
     boolean                        noChannel=false;
     boolean                        jmx;
-    private boolean                useState=false;
+    private boolean                useState=true;
     private long                   stateTimeout=5000;
     private boolean                use_unicasts=false;
     public boolean              send_own_state_on_merge=true;
@@ -649,7 +649,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
          * When do a mouse drag, get coordinates ( X and Y) of the mouse, then send Draw command as a message to member of Group
          */
         public void mouseDragged(MouseEvent e) {
-            int                 x=e.getX(), y=e.getX();
+            int                 x=e.getX(), y=e.getY();
             DrawCommand         comm=new DrawCommand(DrawCommand.DRAW, x, y, drawColor.getRGB());
 
             if(noChannel) {
@@ -741,6 +741,21 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
             }
         }
 
+        colorButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                toggleColorChooser(); // show and hide the color chooser
+            }
+        });
+        colorButton.setBounds(10, 11, 150, 23);
+        contentPane.add(button);
+
+        colorChooser = new JColorChooser(Color.BLACK); // default color is black
+        colorChooser.setBorder(null);
+        colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                colorChanged(); // change background color of "button"
+            }
+        });
     }
 
 }
