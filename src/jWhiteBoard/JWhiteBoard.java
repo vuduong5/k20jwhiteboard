@@ -35,18 +35,22 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
 	int blue = randomGenerator.nextInt(256);
 	Color randomColour = new Color(red,green,blue);
 	
+	 
+   
+
+	
     public String               groupName="";
     private JChannel               channel=null;
     private int                    memberSize=1;
     private JFrame                 mainFrame=null;
     private JPanel                 subPanel=null;
     private DrawPanel              drawPanel=null;
-    private JButton                clearButton, leaveButton, colorButton;
+    private JButton                clearButton, leaveButton, colorBgButton;
     private final Random           random=new Random(System.currentTimeMillis());
     private final Font             defaultFont=new Font("Helvetica",Font.PLAIN,12);
     
     private final Color            drawColor=randomColour;
-    private static final Color     backgroundColor=Color.white;
+    private Color				   backgroundColor=Color.white;
     boolean                        noChannel=false;
     boolean                        jmx;
     private boolean                useState=true;
@@ -54,9 +58,7 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
     private boolean                use_unicasts=false;
     public boolean              send_own_state_on_merge=true;
     private final                  List<Address> members=new ArrayList<Address>();
-
-
-    
+  
     /**
      * Constructor 1
      * 
@@ -279,15 +281,27 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
         clearButton=new JButton("Clean");
         clearButton.setFont(defaultFont);
         clearButton.addActionListener(this);
-        leaveButton=new JButton("Exit");
+        
+        leaveButton=new JButton("Leave");
         leaveButton.setFont(defaultFont);
         leaveButton.addActionListener(this);
+        
+        colorBgButton = new JButton("Bg Color");
+        colorBgButton.setFont(defaultFont);
+        colorBgButton.addActionListener(this);
+        
+        
         subPanel.add("South", clearButton);
-        subPanel.add("South", leaveButton);
-        mainFrame.getContentPane().add("South", subPanel);
-        mainFrame.setBackground(backgroundColor);
+    	subPanel.add("South", leaveButton);
+    	subPanel.add("South", colorBgButton);
+    	
+        
         clearButton.setForeground(Color.blue);
         leaveButton.setForeground(Color.blue);
+        colorBgButton.setForeground(Color.BLUE);
+        
+        mainFrame.getContentPane().add("South", subPanel);
+        mainFrame.setBackground(backgroundColor);
         mainFrame.pack();
         mainFrame.setLocation(15, 25);
         mainFrame.setBounds(new Rectangle(250, 250));
@@ -440,8 +454,22 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
             System.err.println(ex);
         }
     }
-
-
+   
+    // choose background color function
+    public Color BgColor(Color colordefault){
+    	Color cbackground = JColorChooser.showDialog(null, "Choose Background Color", colordefault);
+    	Point p = mainFrame.getLocation();
+		mainFrame.dispose();
+		backgroundColor = cbackground;
+		try {
+			go();
+			mainFrame.setLocation(p);
+		}catch(Exception e1){
+			e1.printStackTrace();
+		}
+		return backgroundColor;
+    }
+    
     /**
      * Action when click [Clear] or [Leave] button
      */
@@ -457,6 +485,9 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
         else if("Leave".equals(command)) {
             stop();
         }
+        else if("Bg Color".equals(command)){
+        		BgColor(backgroundColor);
+              }
         else
             System.out.println("Unknown action");
     }
@@ -740,22 +771,6 @@ public class JWhiteBoard extends ReceiverAdapter implements ActionListener, Chan
                 g.drawImage(img, 0, 0, null);
             }
         }
-
-        colorButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                toggleColorChooser(); // show and hide the color chooser
-            }
-        });
-        colorButton.setBounds(10, 11, 150, 23);
-        contentPane.add(button);
-
-        colorChooser = new JColorChooser(Color.BLACK); // default color is black
-        colorChooser.setBorder(null);
-        colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                colorChanged(); // change background color of "button"
-            }
-        });
     }
 
 }
